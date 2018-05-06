@@ -1,6 +1,6 @@
 # ConsoleAccessCheck
 
-WIP
+(WIP)
 
 This gem operates as a wrapper around ActiveRecord queries. 
 It checks if the running user has the permissions to execute this query. 
@@ -23,3 +23,4 @@ gem 'console_access_check'
 ## Development
 
 It's still under development, so wouldn't really recommend developing on it :P
+
