@@ -24,31 +24,31 @@ module ConsoleAccessCheck
     def self.insert_into_stores
       if defined? ActiveRecord::ConnectionAdapters::Mysql2Adapter
         ActiveRecord::ConnectionAdapters::Mysql2Adapter.module_eval do
-          include ConsoleAccessCheck::ActiveRecordInstrumentation
+          include ConsoleAccessCheck::ActiveRecordWrapper
         end
       end
 
       if defined? ActiveRecord::ConnectionAdapters::MysqlAdapter
         ActiveRecord::ConnectionAdapters::MysqlAdapter.module_eval do
-          include ConsoleAccessCheck::ActiveRecordInstrumentation
+          include ConsoleAccessCheck::ActiveRecordWrapper
         end
       end
 
       if defined? ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
         ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.module_eval do
-          include ConsoleAccessCheck::ActiveRecordInstrumentation
+          include ConsoleAccessCheck::ActiveRecordWrapper
         end
       end
 
       if defined? ActiveRecord::ConnectionAdapters::SQLite3Adapter
         ActiveRecord::ConnectionAdapters::SQLite3Adapter.module_eval do
-          include ConsoleAccessCheck::ActiveRecordInstrumentation
+          include ConsoleAccessCheck::ActiveRecordWrapper
         end
       end
 
       #if defined? Mongoid::Criteria
       #  Mongoid::Criteria.module_eval do
-      #    include ::Security::MongoPermissionsInstrumentation
+      #    include ConsoleAccessCheck::MongoDbWrapper
       #  end
       #end
     end
