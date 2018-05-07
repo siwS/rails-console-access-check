@@ -10,10 +10,6 @@ module ConsoleAccessCheck
           alias_method :old_exec_query, :exec_query
 
           def exec_query(sql, name = "SQL", binds = [])
-            unless defined?(Rails::Console)
-              return old_exec_query(sql, name, binds)
-            end
-
             check_permissions!
             old_exec_query(sql, name, binds)
           end

@@ -10,10 +10,6 @@ module ConsoleAccessCheck
           alias_method :old_where, :where
 
           def where(expression)
-            unless defined?(Rails::Console)
-              return old_where(sql, name, binds)
-            end
-
             check_permissions!
             old_where(expression)
           end
