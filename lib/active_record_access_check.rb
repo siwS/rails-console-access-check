@@ -2,9 +2,7 @@ module ConsoleAccessCheck
   mattr_accessor :application_name
 
   module ActiveRecordInstrumentation
-    include AccessCheckInstrumentation
-
-    ALLOWED_USERS = ['sofia']
+    include UserPermissionsInstrumentation
 
     def self.included(instrumented_class)
       instrumented_class.class_eval do
@@ -16,10 +14,7 @@ module ConsoleAccessCheck
               return old_exec_query(sql, name, binds)
             end
 
-            unless ALLOWED_USERS.include?(username)
-              Rails.logger.error("Dodgy user=#{username}")
-              raise ::ConsoleAccessCheck::PermissionsError
-            end
+            check_permissions!
             old_exec_query(sql, name, binds)
           end
         end
