@@ -1,7 +1,7 @@
 module ConsoleAccessCheck
   mattr_accessor :application_name
 
-  module MongoPermissionsInstrumentation
+  module MongoDbWrapper
     include UserPermissionsInstrumentation
 
     def self.included(instrumented_class)

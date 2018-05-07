@@ -1,7 +1,7 @@
 module ConsoleAccessCheck
   mattr_accessor :application_name
 
-  module ActiveRecordInstrumentation
+  module ActiveRecordWrapper
     include UserPermissionsInstrumentation
 
     def self.included(instrumented_class)
