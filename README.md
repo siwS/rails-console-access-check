@@ -20,6 +20,33 @@ Then, you can add it to your application's Gemfile:
 gem 'console_access_check'
 ```
 
+## Configuration
+
+In order to configure the access checker for your application you have to set 3 options:
+
+- sensitive_tables
+- user_permissions_model (optional)
+- raise_error
+
+You can add the following code in your application:
+
+```ruby
+  ConsoleAccessCheck.configure do |config|
+    config.sensitive_tables = ["model_1", "model_2", "model_3"]
+    config.user_permissions_model = "UserPermissionModel"
+    config.raise_error = true
+  end
+```
+
+You can also do something like:
+
+```ruby
+  ConsoleAccessCheck.configuration.raise_error = false
+```
+
+In case user_permissions_model is not specified all models are treating the same way for all users. 
+
+
 ## Development
 
 It's still under development, so wouldn't really recommend developing on it :P

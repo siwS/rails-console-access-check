@@ -5,7 +5,7 @@ require 'console_access_check/mongo_savable_wrapper'
 require 'console_access_check/mongo_destroyable_wrapper'
 require 'console_access_check/mongo_criteria_wrapper'
 require 'console_access_check/permissions_error'
-require 'console_access_check/active_record'
+require 'console_access_check/active_record_wrapper'
 require 'console_access_check/configuration'
 
 module ConsoleAccessCheck
