@@ -51,7 +51,8 @@ In case user_permissions_model is not specified all models are treating the same
 
 It's still under development, so wouldn't really recommend developing on it :P
 
-## To-do list
+## To do list
 
-1. check model that query is about
-2. abstract the logic of permissions so that it can be implemented by whoever uses gem
+1. write tests
+2. add dynamo source
+3. abstract as much as possible
