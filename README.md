@@ -11,7 +11,7 @@ If the user is not in the list of allowed users, it throws a PermissionsError
 To install execute:
 
     $ rake install
-    $ gem install /pkg/console_access_check-0.0.1.gem
+    $ gem install pkg/console_access_check-0.0.1.gem
 
 
 The you can add it to your application's Gemfile:

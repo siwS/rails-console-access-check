@@ -15,7 +15,7 @@ module ConsoleAccessCheck
     end
   end
 
-  # Does the tieing i reckon
+  # Does the tieing
   class Railtie
     def self.insert
       insert_into_stores
@@ -46,11 +46,24 @@ module ConsoleAccessCheck
         end
       end
 
-      #if defined? Mongoid::Criteria
-      #  Mongoid::Criteria.module_eval do
-      #    include ConsoleAccessCheck::MongoDbWrapper
-      #  end
-      #end
+      if defined? Mongoid::Persistable::Savable
+        Mongoid::Persistable::Savable.module_eval do
+          include ConsoleAccessCheck::MongoSavableWrapper
+        end
+      end
+
+      if defined? Mongoid::Persistable::Destroyable
+        Mongoid::Persistable::Destroyable.module_eval do
+          include ConsoleAccessCheck::MongoDestroyableWrapper
+        end
+      end
+
+      if defined? Mongoid::Criteria # rubocop:disable Style/GuardClause
+        Mongoid::Criteria.module_eval do
+          include ConsoleAccessCheck::MongoCriteriaWrapper
+        end
+      end
     end
   end
+
 end

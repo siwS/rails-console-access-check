@@ -1,8 +1,8 @@
-module ConsoleAccessCheck
-  mattr_accessor :application_name
+# frozen_string_literal: true
 
-  module MongoDbWrapper
-    include UserPermissionsInstrumentation
+module ConsoleAccessCheck
+
+  module MongoCriteriaWrapper
 
     def self.included(instrumented_class)
       instrumented_class.class_eval do
@@ -10,7 +10,7 @@ module ConsoleAccessCheck
           alias_method :old_where, :where
 
           def where(expression)
-            check_permissions!
+            ::ConsoleAccessCheck::UserPermissionsChecker.check_permissions!([model_name.name])
             old_where(expression)
           end
         end
