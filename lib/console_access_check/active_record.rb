@@ -1,5 +1,4 @@
 module ConsoleAccessCheck
-  mattr_accessor :application_name
 
   module ActiveRecordWrapper
 
@@ -22,7 +21,6 @@ module ConsoleAccessCheck
 
     def parse_query_tables_manually(sql_query)
       res = sql_query.delete("`").split(" ")
-      Rails.logger.info(res)
 
       sql_tables = []
       res.each_with_index do |a, i|
