@@ -1,11 +1,13 @@
+# frozen_string_literal: true
 
-# The module
+# Instruments all the stores
 module ConsoleAccessCheck
   if defined? Rails::Railtie
-    require 'rails/railtie'
+    require "rails/railtie"
 
+    # initializer for console access check gem
     class Railtie < Rails::Railtie
-      initializer 'console_access_check.insert' do
+      initializer "console_access_check.insert" do
         if defined?(Rails::Console)
           ActiveSupport.on_load :action_controller do
             ConsoleAccessCheck::Railtie.insert_into_stores
@@ -15,21 +17,20 @@ module ConsoleAccessCheck
     end
   end
 
-  # Does the tieing
+  # Inserts the instrumentations on the stores
   class Railtie
     def self.insert
       insert_into_stores
     end
 
     def self.insert_into_stores
+      insert_into_active_record
+      insert_into_mongo_db
+    end
+
+    def self.insert_into_active_record
       if defined? ActiveRecord::ConnectionAdapters::Mysql2Adapter
         ActiveRecord::ConnectionAdapters::Mysql2Adapter.module_eval do
-          include ConsoleAccessCheck::ActiveRecordWrapper
-        end
-      end
-
-      if defined? ActiveRecord::ConnectionAdapters::MysqlAdapter
-        ActiveRecord::ConnectionAdapters::MysqlAdapter.module_eval do
           include ConsoleAccessCheck::ActiveRecordWrapper
         end
       end
@@ -40,12 +41,14 @@ module ConsoleAccessCheck
         end
       end
 
-      if defined? ActiveRecord::ConnectionAdapters::SQLite3Adapter
+      if defined? ActiveRecord::ConnectionAdapters::SQLite3Adapter # rubocop:disable Style/GuardClause
         ActiveRecord::ConnectionAdapters::SQLite3Adapter.module_eval do
           include ConsoleAccessCheck::ActiveRecordWrapper
         end
       end
+    end
 
+    def self.insert_into_mongo_db
       if defined? Mongoid::Persistable::Savable
         Mongoid::Persistable::Savable.module_eval do
           include ConsoleAccessCheck::MongoSavableWrapper
@@ -65,5 +68,4 @@ module ConsoleAccessCheck
       end
     end
   end
-
 end

@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 module ConsoleAccessCheck
-
+  # Overrides MongoID save method
   module MongoSavableWrapper
-
     def self.included(instrumented_class)
       instrumented_class.class_eval do
         unless method_defined?(:old_save)
@@ -16,7 +15,5 @@ module ConsoleAccessCheck
         end
       end
     end
-
   end
-
 end

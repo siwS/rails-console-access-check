@@ -1,15 +1,16 @@
+# frozen_string_literal: true
+
 module ConsoleAccessCheck
-
+  # Checks permissions for a user-model combination
   module UserPermissionsChecker
-
     def self.check_permissions!(current_models)
-      sensitive_models_accessed = ::ConsoleAccessCheck.configuration
-                                      .sensitive_tables & current_models
-      return if sensitive_models_accessed.empty?
+      models_accessed = ::ConsoleAccessCheck.configuration
+                                            .sensitive_tables & current_models
+      return if models_accessed.empty?
 
-      sensitive_models_accessed.each do |model|
+      models_accessed.each do |model|
         next if user_has_permissions?(username, model)
-        Rails.logger.info("User accessed sensitive models username=#{username} model=#{model}")
+        log_access(username, model)
 
         next unless raise_error?
         raise ConsoleAccessCheck::PermissionsError
@@ -32,6 +33,10 @@ module ConsoleAccessCheck
 
     def self.raise_error?
       ::ConsoleAccessCheck.configuration.raise_error
+    end
+
+    def self.log_access(username, model)
+      Rails.logger.info("User accessed sensitive models username=#{username} model=#{model}")
     end
   end
 end

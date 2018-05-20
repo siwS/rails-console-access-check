@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module ConsoleAccessCheck
+  # Holds the gem configuration
   class Configuration
     attr_accessor :sensitive_tables, :user_permissions_model, :raise_error
 

@@ -1,0 +1,39 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  Exclude:
+    - "pkg/**/*"
+    - "Gemfile"
+    - "Gemfile.lock"
+    - "Rakefile"
+
+Metrics/AbcSize:
+  Max: 20
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 100
+  IgnoreCopDirectives: true
+
+Style/SafeNavigation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  SupportedStyles:
+    - single_quotes
+    - double_quotes
+

@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 module ConsoleAccessCheck
-
+  # Overrides MongoID where method
   module MongoCriteriaWrapper
-
     def self.included(instrumented_class)
       instrumented_class.class_eval do
         unless method_defined?(:old_where)
@@ -16,6 +15,5 @@ module ConsoleAccessCheck
         end
       end
     end
-
   end
 end
