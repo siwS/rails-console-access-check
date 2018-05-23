@@ -9,6 +9,7 @@ module ConsoleAccessCheck
       return if models_accessed.empty?
 
       models_accessed.each do |model|
+        Rails.logger.info("Model: #{model} user_has_permissions?:#{user_has_permissions?}")
         next if user_has_permissions?(username, model)
         log_access(username, model)
 
