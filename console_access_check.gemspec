@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = `git ls-files -- {test}/*`.split("\n")
   gem.name          = "console_access_check"
   gem.require_paths = ["lib"]
-  gem.version       = ConsoleAccessCheck::Version
+  gem.version       = ::ConsoleAccessCheck::Version
   gem.license       = "MIT"
 
   gem.add_runtime_dependency "actionpack", ">= 2.3"
