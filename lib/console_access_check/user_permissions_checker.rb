@@ -22,7 +22,7 @@ module ConsoleAccessCheck
     end
 
     def self.user_has_permissions?(username, model)
-      return true if user_permissions_model.nil?
+      return false if user_permissions_model.nil?
       user_permissions_model.find_by(username: username, table_name: model) != nil
     end
 
