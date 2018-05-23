@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+lib = File.expand_path('lib', __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require "console_access_check/version"
+
 Gem::Specification.new do |gem|
   gem.authors       = ["Sofia Tzima"]
   gem.email         = ["tzi.sof@gmail.com"]
@@ -10,7 +14,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = `git ls-files -- {test}/*`.split("\n")
   gem.name          = "console_access_check"
   gem.require_paths = ["lib"]
-  gem.version       = ::ConsoleAccessCheck::Version
+  gem.version       = ::ConsoleAccessCheck::VERSION
   gem.license       = "MIT"
 
   gem.add_runtime_dependency "actionpack", ">= 2.3"
