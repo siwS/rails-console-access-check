@@ -4,12 +4,11 @@
 module ConsoleAccessCheck
   if defined? Rails::Railtie
     require "rails/railtie"
-
     # initializer for console access check gem
     class Railtie < Rails::Railtie
       initializer "console_access_check.insert" do
         if defined?(Rails::Console)
-          ActiveSupport.on_load :action_controller do
+          ActiveSupport.on_load :active_record do
             ConsoleAccessCheck::Railtie.insert_into_stores
           end
         end
@@ -19,10 +18,6 @@ module ConsoleAccessCheck
 
   # Inserts the instrumentations on the stores
   class Railtie
-    def self.insert
-      insert_into_stores
-    end
-
     def self.insert_into_stores
       insert_into_active_record
       insert_into_mongo_db

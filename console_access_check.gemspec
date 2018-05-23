@@ -17,8 +17,13 @@ Gem::Specification.new do |gem|
   gem.version       = ::ConsoleAccessCheck::VERSION
   gem.license       = "MIT"
 
+  gem.add_development_dependency "pry"
   gem.add_runtime_dependency "actionpack", ">= 2.3"
   gem.add_runtime_dependency "activerecord", ">= 2.3"
+  gem.add_development_dependency "rake"
+  gem.add_development_dependency "mysql2"
+  gem.add_development_dependency "pg"
+
 
   gem.summary = gem.description = "Check who accesses your sensitive DB models"
 end

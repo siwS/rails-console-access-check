@@ -6,10 +6,10 @@ module ConsoleAccessCheck
     def self.check_permissions!(current_models)
       models_accessed = ::ConsoleAccessCheck.configuration
                                             .sensitive_tables & current_models
-      return if models_accessed.empty?
+      return if models_accessed.nil? || models_accessed.empty?
 
       models_accessed.each do |model|
-        Rails.logger.info("Model: #{model} user_has_permissions?:#{user_has_permissions?}")
+        Rails.logger.info("Model: #{model} user_has_permissions?:#{user_has_permissions?(username, model)}")
         next if user_has_permissions?(username, model)
         log_access(username, model)
 
@@ -19,7 +19,7 @@ module ConsoleAccessCheck
     end
 
     def self.username
-      Etc.getlogin
+      Etc.getlogin || ENV['USER']
     end
 
     def self.user_has_permissions?(username, model)
