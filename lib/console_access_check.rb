@@ -9,6 +9,8 @@ require "console_access_check/mongo_criteria_wrapper"
 require "console_access_check/permissions_error"
 require "console_access_check/active_record_wrapper"
 require "console_access_check/configuration"
+require "console_access_check/version"
+
 
 # Main module to be included in application
 module ConsoleAccessCheck
