@@ -44,7 +44,7 @@ module ConsoleAccessCheck
 
     def self.operation_type(operation)
       return :read if operation == :select
-      return :write
+      :write
     end
 
     def self.user_permissions_model
