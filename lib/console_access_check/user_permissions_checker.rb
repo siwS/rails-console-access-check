@@ -22,6 +22,7 @@ module ConsoleAccessCheck
     def self.configuration_models_accessed?(models_accessed)
       models_accessed.include?(::ConsoleAccessCheck.configuration.user_permissions_model.constantize.table_name) ||
         models_accessed.include?(::ConsoleAccessCheck.configuration.sensitive_tables_model.constantize.table_name) ||
+        models_accessed.include?(::ConsoleAccessCheck.configuration.logging_table) ||
         models_accessed.include?("pg_attribute") || models_accessed.include?("pg_attrdef")
     end
 
@@ -63,6 +64,8 @@ module ConsoleAccessCheck
 
     def self.log_access(username, model, operation)
       Rails.logger.info("User accessed sensitive models username=#{username} model=#{model} operation=#{operation}")
+      return unless ::ConsoleAccessCheck.configuration.log_to_db
+      ::ConsoleAccessCheck.configuration.logging_table.constantize.create!(username: username, model: model, time: Time.now)
     end
   end
 end
