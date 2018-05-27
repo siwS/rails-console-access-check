@@ -63,4 +63,5 @@ gem 'console_access_check'
 ## To do list
 
 1. write tests
-2. add dynamo sourc444444444444xs
+2. add dynamo storage
+3. allow configuration of check_permissions behavior
