@@ -18,10 +18,15 @@ gem 'console_access_check', :git => 'https://github.com/siwS/rails-console-acces
 In order to configure the access checker for your application you have to set these options:
 
 -sensitive_tables_model
+
 -user_permissions_model
+
 -raise_error
+
 -use_group_access
+
 -lot_to_db
+
 -logging_table
 
 You can add the following code in your application.rb file:
