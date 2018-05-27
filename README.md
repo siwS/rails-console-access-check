@@ -21,15 +21,19 @@ In order to configure the access checker for your application you have to set th
 -user_permissions_model
 -raise_error
 -use_group_access
+-lot_to_db
+-logging_table
 
 You can add the following code in your application.rb file:
 
 ```ruby
   ConsoleAccessCheck.configure do |config|
-    config.sensitive_tables_model = "SensitiveModels"
-    config.user_permissions_model = "UserPermissions"
     config.raise_error = true
+    config.sensitive_tables_model = "SensitiveModel"
+    config.user_permissions_model = "UserPermission"
     config.use_group_access = false
+    config.log_to_db = true
+    config.logging_table = "ModelAccess"
   end
 ```
 
