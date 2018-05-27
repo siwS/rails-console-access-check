@@ -42,12 +42,19 @@ we consider that the user does not have access to this model.
 To develop check out latest code from github
 
 ```shell
-git@github.com:siwS/rails-console-access-check.git
+git clone git@github.com:siwS/rails-console-access-check.git
 ```
-To install locally:
+To install gem locally:
 
     $ rake install
-    $ gem install pkg/console_access_check-0.0.1.gem
+    $ gem install pkg/console_access_check-0.0.2.gem
+
+Then you can include the gem in your applications, adding in your Gemfile 
+
+```ruby
+gem 'console_access_check'
+
+```
 
 ## To do list
 
