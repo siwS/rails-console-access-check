@@ -9,10 +9,10 @@ module ConsoleAccessCheck
           unless method_defined?(:old_execute)
             alias_method :old_execute, :execute
             def execute(sql, name = nil)
-              current_models = parse_query_tables_manually(sql)
-              unless current_models.empty?
+              sql_query_parser = ConsoleAccessCheck::SqlQueryParser.new(sql)
+              unless sql_query_parser.tables.empty?
                 ::ConsoleAccessCheck::UserPermissionsChecker
-                  .check_permissions!(current_models)
+                  .check_permissions!(sql_query_parser.tables, sql_query_parser.operation)
               end
 
               old_execute(sql, name)
@@ -25,36 +25,47 @@ module ConsoleAccessCheck
             alias_method :old_exec_query, :exec_query
 
             def exec_query(sql, name = "SQL", binds = [])
-              current_models = parse_query_tables_manually(sql)
-              unless current_models.empty?
+              sql_query_parser = ConsoleAccessCheck::SqlQueryParser.new(sql)
+              unless sql_query_parser.tables.empty?
                 ::ConsoleAccessCheck::UserPermissionsChecker
-                    .check_permissions!(current_models)
+                    .check_permissions!(sql_query_parser.tables, sql_query_parser.operation)
               end
               old_exec_query(sql, name, binds)
             end
           end
         end
+
+        is_postgres = defined?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter) &&
+            ActiveRecord::ConnectionAdapters::PostgreSQLAdapter == instrumented_class
+        # Instrument exec_delete and exec_update on AR 3.2+, since they don't
+        # call execute internally
+        if is_postgres && ActiveRecord::VERSION::STRING > "3.1"
+          if instrumented_class.method_defined?(:exec_delete)
+            alias_method :old_exec_delete, :exec_delete
+
+            def exec_delete(sql, name = "SQL", binds = [])
+              sql_query_parser = ConsoleAccessCheck::SqlQueryParser.new(sql)
+              unless sql_query_parser.tables.empty?
+                ::ConsoleAccessCheck::UserPermissionsChecker
+                    .check_permissions!(sql_query_parser.tables, sql_query_parser.operation)
+              end
+              old_exec_delete(sql, name, binds)
+            end
+          end
+          if instrumented_class.method_defined?(:exec_update)
+            alias_method :old_exec_update, :exec_update
+
+            def exec_update(sql, name = "SQL", binds = [])
+              sql_query_parser = ConsoleAccessCheck::SqlQueryParser.new(sql)
+              unless sql_query_parser.tables.empty?
+                ::ConsoleAccessCheck::UserPermissionsChecker
+                    .check_permissions!(sql_query_parser.tables, sql_query_parser.operation)
+              end
+              old_exec_update(sql, name, binds)
+            end
+          end
+        end
       end
-    end
-
-    def parse_query_tables_manually(sql_query)
-      res = sql_query.delete("`").split(" ")
-
-      sql_tables = []
-      res.each_with_index do |a, i|
-        next unless from_join_update_or_into?(a)
-        sql_tables << strip_special_characters(res[i + 1])
-      end
-      sql_tables.uniq
-    end
-
-    def from_join_update_or_into?(str)
-      str.casecmp("FROM").zero? || str.casecmp("JOIN").zero? ||
-        str.casecmp("UPDATE").zero? || str.casecmp("INTO").zero?
-    end
-
-    def strip_special_characters(word)
-      word.gsub!(/[^0-9A-Za-z]/, '')
     end
   end
 end
