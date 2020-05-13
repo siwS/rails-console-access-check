@@ -1,8 +1,8 @@
 # ConsoleAccessCheck
 
 This gem operates as a wrapper around ActiveRecord queries executed from Rails Console.\
-For every ActiveRecord query, it checks if the user who is logged in the Console has the correct permissions to execute a Read or Write operation for the table in question.\
-If the user does not have permissions, it logs the unauthorised access attempt and/or throws a PermissionsError.\
+For every ActiveRecord query, it checks if the logged in user has the correct permissions to execute a Read or Write operation for the table in question.\
+If the user does not have permissions, it logs the unauthorised access attempt and/or throws a PermissionsError.
 
 To use this gem in you application, add in your Gemfile:
 
